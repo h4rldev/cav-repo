@@ -1,0 +1,26 @@
+# Dummy file
+
+category=""
+name=""
+
+beauty_name=""
+description=""
+uri=""
+version=""
+
+dependencies=()
+
+paths=()
+
+system=""
+build_system=""
+
+archive=""
+archive_md5sum=""
+install_dir=""
+config_sub_path=""
+extra_parameters=""
+optional_patchname=""
+extra_install_parameters=""
+before_build=""
+after_build=""

@@ -1,0 +1,32 @@
+category="shell"
+name="bash"
+
+beauty_name="GNU Bash"
+description="Bash is the GNU Project's shell—the Bourne Again SHell. This is an sh-compatible shell that incorporates useful features from the Korn shell (ksh) and the C shell (csh)."
+uri="https://www.gnu.org/software/bash/"
+version="5.2"
+
+dependencies=(
+	"lib/ncurses"
+)
+
+paths=(
+	"/usr/bin/bash"
+	"/usr/bin/bashbug"
+	"/usr/share/doc/bash"
+	"/usr/share/info/bash.info"
+	"/usr/share/man/man1/bash.1"
+	"/usr/share/man/man1/bashbug.1"
+)
+
+system="host"
+build_system="autotools"
+
+archive="https://ftp.gnu.org/gnu/bash/bash-5.2.tar.gz"
+archive_md5sum="cfb4cf795fc239667f187b3d6b3d396f"
+install_dir=""
+config_sub_path="support/config.sub"
+extra_parameters="host_alias=x86_64-cavos --without-bash-malloc --enable-static-link"
+optional_patchname="patches/bash.diff"
+extra_install_parameters=""
+before_build="autoconf -f"
