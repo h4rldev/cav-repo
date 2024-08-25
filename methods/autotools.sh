@@ -57,7 +57,7 @@ sed -i 's/\# Now accept the basic system types\./cavos\*\);;/g' "${config_sub_pa
 
 # Do any optional patches
 if [ -n "${optional_patchname}" ]; then
-	echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${foldername})${CLEAR} Adding ${optional_patchname} patch"
+	echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${foldername})${CLEAR} Applying ${optional_patchname} patch"
 	patch -p1 <"../${optional_patchname}" >/dev/null 2>&1
 fi
 
