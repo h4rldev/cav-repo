@@ -21,7 +21,7 @@ foldername=$(echo "${filename}" | sed 's/\.tar.*//g')
 
 install_dir=${2}
 if [ -z "$install_dir" ]; then
-	install_dir=$(realpath -s "$cavos_path/usr/")
+	install_dir=$(realpath -s "$cavos_path/target/usr/")
 fi
 
 config_sub_path=${3}
