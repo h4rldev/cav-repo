@@ -13,6 +13,9 @@ source session/.config
 
 dependencies_json=$(jq -c -n '$ARGS.positional' --args "${dependencies[@]}")
 
+# archive_md5sum belongs to the initial source code archive
+correct_md5sum=$(md5sum "out/${name}-${version}.tar.gz.cav" | sed 's/ .*//g')
+
 # write meta file
 jq -n --arg name "${name}" \
 	--arg category "${category}" \
@@ -20,7 +23,7 @@ jq -n --arg name "${name}" \
 	--arg description "${description}" \
 	--arg version "${version}" \
 	--arg uri "${uri}" \
-	--arg md5sum "${archive_md5sum}" \
+	--arg md5sum "${correct_md5sum}" \
 	--argjson dependencies "${dependencies_json}" \
 	'{
         "category": $category,
@@ -31,7 +34,7 @@ jq -n --arg name "${name}" \
         "version": $version,
         "md5sum": $md5sum,
         "dependencies": $dependencies
-    }' >out/${name}-${version}.meta.cav
+    }' >"out/${name}-${version}.meta.cav"
 
 # validate meta file
-jq '.' out/${name}-${version}.meta.cav >/dev/null
+jq '.' "out/${name}-${version}.meta.cav" >/dev/null
