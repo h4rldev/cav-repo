@@ -1,0 +1,33 @@
+category="system"
+name="file"
+
+beauty_name="File"
+description="The file command is a standard program of Unix and Unix-like operating systems for recognizing the type of data contained in a computer file."
+uri="https://astron.com/pub/file/"
+version="5.45"
+
+dependencies=()
+
+paths=(
+	"/usr/share/misc/magic.mgc"
+	"/usr/lib/libmagic.la"
+	"/usr/lib/libmagic.a"
+	"/usr/lib/pkgconfig/libmagic.pc"
+	"/usr/include/magic.h"
+	"/usr/bin/file"
+)
+
+system="host"
+build_system="autotools"
+
+# File really doesn't like relative paths
+USR_PATHNAME_FIXED=$(readlink -e "$cavos_path/target/usr/")
+DESTDIR_FIXED=$(readlink -e "$USR_PATHNAME_FIXED/../")
+
+archive="https://astron.com/pub/file/file-5.45.tar.gz"
+archive_md5sum="26b2a96d4e3a8938827a1e572afd527a"
+install_dir="$USR_PATHNAME_FIXED"
+config_sub_path="config.sub"
+extra_parameters="--prefix /usr"
+extra_install_parameters="DESTDIR=$DESTDIR_FIXED"
+before_build="mkdir build && cd build && ../configure --disable-bzlib --disable-libseccomp --disable-xzlib --disable-zlib && make -j$(nproc) && cd .."

@@ -1,0 +1,22 @@
+category="system"
+name="patch"
+
+beauty_name="GNU Patch"
+description="GNU Patch takes a patch file containing a difference listing produced by the diff program and applies those differences to one or more original files, producing patched versions."
+uri="https://www.gnu.org/software/patch/"
+version="2.7.6"
+
+dependencies=()
+
+paths=(
+	./bin/patch
+)
+
+system="host"
+build_system="autotools"
+
+archive="https://ftp.gnu.org/gnu/patch/patch-2.7.6.tar.xz"
+archive_md5sum="78ad9937e4caadcba1526ef1853730d5"
+install_dir=""
+config_sub_path="build-aux/config.sub"
+optional_patchname="patches/patch.diff"

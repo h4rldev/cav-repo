@@ -1,0 +1,24 @@
+category="system"
+name="m4"
+
+beauty_name="GNU M4"
+description="GNU M4 is an implementation of the traditional Unix macro processor. It is mostly SVR4 compatible although it has some extensions. GNU M4 also has built-in functions for including files, running shell commands, doing arithmetic, etc."
+uri="https://www.gnu.org/software/m4/"
+version="1.4.19"
+
+dependencies=()
+
+paths=(
+	"/usr/share/info/m4.info-2"
+	"/usr/share/info/m4.info"
+	"/usr/share/info/m4.info-1"
+	"/usr/bin/m4"
+)
+
+system="host"
+build_system="autotools"
+
+archive="https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz"
+archive_md5sum="0d90823e1426f1da2fd872df0311298d"
+install_dir=""
+config_sub_path="build-aux/config.sub"

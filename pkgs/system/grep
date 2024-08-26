@@ -1,0 +1,24 @@
+category="system"
+name="grep"
+
+beauty_name="GNU Grep"
+description="Grep searches one or more input files for lines containing a match to a specified pattern. By default, Grep outputs the matching lines."
+uri="https://www.gnu.org/software/grep/"
+version="3.11"
+
+dependencies=()
+
+paths=(
+	"/usr/share/info/grep.info"
+	"/usr/bin/fgrep"
+	"/usr/bin/egrep"
+	"/usr/bin/grep"
+)
+
+system="host"
+build_system="autotools"
+
+archive="https://ftp.gnu.org/gnu/grep/grep-3.11.tar.xz"
+archive_md5sum="7c9bbd74492131245f7cdb291fa142c0"
+install_dir=""
+config_sub_path="build-aux/config.sub"

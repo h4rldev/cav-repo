@@ -1,0 +1,26 @@
+category="system"
+name="tar"
+
+beauty_name="GNU Tar"
+description="GNU Tar provides the ability to create tar archives, as well as various other kinds of manipulation. For example, you can use Tar on previously created archives to extract files, to store additional files, or to update or list files which were already stored."
+uri="https://www.gnu.org/software/tar/"
+version="1.35"
+
+dependencies=()
+
+paths=(
+	"/usr/libexec/rmt"
+	"/usr/share/info/tar.info-3"
+	"/usr/share/info/tar.info-2"
+	"/usr/share/info/tar.info"
+	"/usr/share/info/tar.info-1"
+	"/usr/bin/tar"
+)
+
+system="host"
+build_system="autotools"
+
+archive="https://ftp.gnu.org/gnu/tar/tar-1.35.tar.xz"
+archive_md5sum="a2d8042658cfd8ea939e6d911eaf4152"
+install_dir=""
+config_sub_path="build-aux/config.sub"

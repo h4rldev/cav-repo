@@ -1,0 +1,25 @@
+category="system"
+name="diffutils"
+
+beauty_name="GNU Diffutils"
+description="GNU Diffutils is a package of several programs related to finding differences between files."
+uri="https://www.gnu.org/software/diffutils/"
+version="3.10"
+
+dependencies=()
+
+paths=(
+	"/usr/share/info/diffutils.info"
+	"/usr/bin/diff3"
+	"/usr/bin/cmp"
+	"/usr/bin/diff"
+	"/usr/bin/sdiff"
+)
+
+system="host"
+build_system="autotools"
+
+archive="https://ftp.gnu.org/gnu/diffutils/diffutils-3.10.tar.xz"
+archive_md5sum="2745c50f6f4e395e7b7d52f902d075bf"
+install_dir=""
+config_sub_path="build-aux/config.sub"

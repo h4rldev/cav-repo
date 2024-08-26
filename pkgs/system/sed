@@ -1,0 +1,22 @@
+category="system"
+name="sed"
+
+beauty_name="GNU Sed"
+description="GNU Sed (stream editor) is a non-interactive command-line text editor. Sed is commonly used to filter text."
+uri="https://www.gnu.org/software/sed/"
+version="4.9"
+
+dependencies=()
+
+paths=(
+	"/usr/share/info/sed.info"
+	"/usr/bin/sed"
+)
+
+system="host"
+build_system="autotools"
+
+archive="https://ftp.gnu.org/gnu/sed/sed-4.9.tar.xz"
+archive_md5sum="6aac9b2dbafcd5b7a67a8a9bcb8036c3"
+install_dir=""
+config_sub_path="build-aux/config.sub"
