@@ -8,8 +8,8 @@ if [ -z "${1}" ]; then
 fi
 
 # Deps
-source pkgs/${1}
 source session/.config
+source pkgs/${1}
 
 dependencies_json=$(jq -c -n '$ARGS.positional' --args "${dependencies[@]}")
 

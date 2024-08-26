@@ -1,6 +1,9 @@
 # cav-repo
 
-The repo for the cav package manager repository & build system.
+![Preview image](https://raw.malwarepad.com/cavos/images/cav-repo.png)
+
+## What is this?
+The repo for the cav package manager repository & build system. It will later be utilized by the cav package manager directly to install, manage and update packages.
 
 ## Installation
 There's no need to install anything; it's actually discouraged. This program is supposed to work directly off this repository. The following should be enough to make it work:
