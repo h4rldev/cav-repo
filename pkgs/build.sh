@@ -59,7 +59,7 @@ fi
 for dependency in "${dependencies[@]}"; do
 	source "pkgs/dummy"
 	source "pkgs/${dependency}"
-	if [[ ! -f "out/${name}-${version}.tar.gz.cav" ]]; then
+	if [[ ! -f "out/${name}-${version}.meta.cav" ]]; then
 		echo -e "${YELLOW}(+)${CLEAR} ${CYAN}(${name})${CLEAR} is required but not found!"
 		pkgs/build.sh "${category}/${name}"
 	fi
@@ -70,7 +70,7 @@ source "pkgs/dummy"
 source "pkgs/${1}"
 
 # Deps utilize recursion (no need for double-checks)
-if [ -f "out/${name}-${version}.tar.gz.cav" ]; then
+if [ -f "out/${name}-${version}.meta.cav" ]; then
 	echo -e "${YELLOW}(-)${CLEAR} ${CYAN}(${name}-${version})${CLEAR} File already exists"
 	exit 0
 fi
@@ -103,14 +103,18 @@ if [[ "$system" == "host" ]]; then
 		echo -e "${RED}(x)${CLEAR} Could not detect build system! (autotools, cmd)"
 		exit 1
 	fi
+elif [[ "$system" == "ignore" ]]; then
+	echo "Ignored xd" >/dev/null
 else
 	echo -e "${RED}(x)${CLEAR} Could not detect system type (host, chroot)!"
 	exit 1
 fi
 
 # Archiving
-echo -e "${BLUE}(i)${CLEAR} Finalizing ${CYAN}${name}-${version}.tar.gz.cav${CLEAR}"
-archive "${category}/${name}"
+if [[ "$system" != "ignore" ]]; then
+	echo -e "${BLUE}(i)${CLEAR} Finalizing ${CYAN}${name}-${version}.tar.gz.cav${CLEAR}"
+	archive "${category}/${name}"
+fi
 
 # Metadata tagging
 chmod +x "${cav_repo}/utils/gen_meta.sh"

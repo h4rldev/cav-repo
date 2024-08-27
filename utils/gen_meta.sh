@@ -14,7 +14,7 @@ source pkgs/${1}
 dependencies_json=$(jq -c -n '$ARGS.positional' --args "${dependencies[@]}")
 
 # archive_md5sum belongs to the initial source code archive
-correct_md5sum=$(md5sum "out/${name}-${version}.tar.gz.cav" | sed 's/ .*//g')
+correct_md5sum=$(md5sum "out/${name}-${version}.tar.gz.cav" 2>/dev/null | sed 's/ .*//g')
 
 # write meta file
 jq -n --arg name "${name}" \

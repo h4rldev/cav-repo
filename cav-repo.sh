@@ -154,7 +154,7 @@ upload_single() {
 	source "pkgs/$1"
 	ARCHIVE="out/${name}-${version}.tar.gz.cav"
 	METADATA="out/${name}-${version}.meta.cav"
-	if [ ! -f "$ARCHIVE" ]; then
+	if [[ "$system" != "ignore" ]] && [ ! -f "$ARCHIVE" ]; then
 		echo -e "${RED}(x)${CLEAR} $ARCHIVE couldn't be found!"
 		exit 1
 	fi
@@ -165,7 +165,9 @@ upload_single() {
 	fi
 
 	chmod +x utils/s3.sh
-	utils/s3.sh "$ARCHIVE" "${name}-${version}.tar.gz.cav"
+	if [[ "$system" != "ignore" ]]; then
+		utils/s3.sh "$ARCHIVE" "${name}-${version}.tar.gz.cav"
+	fi
 	utils/s3.sh "$METADATA" "${name}-${version}.meta.cav"
 	upload_master
 }
@@ -206,7 +208,9 @@ upload_all() {
 		METADATA="out/${name}-${version}.meta.cav"
 		package="${packages[$pkg_index]}"
 
-		utils/s3.sh "$ARCHIVE" "${name}-${version}.tar.gz.cav"
+		if [[ "$system" != "ignore" ]]; then
+			utils/s3.sh "$ARCHIVE" "${name}-${version}.tar.gz.cav"
+		fi
 		utils/s3.sh "$METADATA" "${name}-${version}.meta.cav"
 	done
 
