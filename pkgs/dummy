@@ -24,3 +24,8 @@ optional_patchname=""
 extra_install_parameters=""
 before_build=""
 after_build=""
+
+cmd() {
+	echo fr > /dev/null
+}
+unset cmd

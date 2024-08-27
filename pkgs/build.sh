@@ -88,14 +88,17 @@ if [[ "$system" == "host" ]]; then
 		chmod +x "${cav_repo}/methods/autotools.sh"
 		"${cav_repo}/methods/autotools.sh" "$archive" "$install_dir" "$config_sub_path" "$extra_parameters" "$optional_patchname" "$extra_install_parameters" "$before_build" "$aft_build" "$archive_md5sum"
 		pushd "${SCRIPTPATH}/../" >/dev/null
+	elif [[ "$build_system" == "cmd" ]]; then
+		if ! declare -F cmd >/dev/null; then
+			echo -e "${RED}(x)${CLEAR} Invalid build file, missing custom cmd function!"
+			exit 1
+		fi
 
-		# Archiving
-		echo -e "${BLUE}(i)${CLEAR} Finalizing ${CYAN}${name}-${version}.tar.gz.cav${CLEAR}"
-		archive "${category}/${name}"
-
-		# Metadata tagging
-		chmod +x "${cav_repo}/utils/gen_meta.sh"
-		"${cav_repo}/utils/gen_meta.sh" "${category}/${name}"
+		# Execute custom commands
+		echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${category}/${name})${CLEAR} Executing custom commands"
+		pushd "$cavos_path" >/dev/null
+		cmd >/dev/null
+		popd >/dev/null
 	else
 		echo -e "${RED}(x)${CLEAR} Could not detect build system! (autotools, cmd)"
 		exit 1
@@ -104,6 +107,14 @@ else
 	echo -e "${RED}(x)${CLEAR} Could not detect system type (host, chroot)!"
 	exit 1
 fi
+
+# Archiving
+echo -e "${BLUE}(i)${CLEAR} Finalizing ${CYAN}${name}-${version}.tar.gz.cav${CLEAR}"
+archive "${category}/${name}"
+
+# Metadata tagging
+chmod +x "${cav_repo}/utils/gen_meta.sh"
+"${cav_repo}/utils/gen_meta.sh" "${category}/${name}"
 
 # Regenerate master
 chmod +x "utils/gen_master.sh"

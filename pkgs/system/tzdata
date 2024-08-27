@@ -1,0 +1,35 @@
+category="system"
+name="tzdata"
+
+beauty_name="IANA Time Zone Database"
+description="The Time Zone Database (often called tz or zoneinfo) contains code and data that represent the history of local time for many representative locations around the globe."
+uri="https://www.iana.org/time-zones"
+version="2024a"
+
+dependencies=()
+
+paths=(
+	"/usr/share/zoneinfo"
+)
+
+system="host"
+build_system="cmd"
+
+cmd() {
+	mkdir timezonestuff
+	cd timezonestuff
+
+	wget http://ftp.us.debian.org/debian/pool/main/t/tzdata/tzdata_2024a-4_all.deb >/dev/null 2>&1
+	if [[ "$(md5sum "tzdata_2024a-4_all.deb" | sed 's/ .*//g')" != "65ca657204ac93b0f9e77d99734e3f4f" ]]; then
+		echo -e "${RED}!${CLEAR} Invalid md5sum! Exiting immediately!"
+		exit 1
+	fi
+	ar x tzdata_2024a-4_all.deb
+	tar -xvf data.tar.xz
+
+	mkdir -p "$cavos_path/target/usr/share/zoneinfo/"
+	cp -r usr/share/zoneinfo/* "$cavos_path/target/usr/share/zoneinfo/"
+
+	cd ..
+	rm -rf timezonestuff
+}
