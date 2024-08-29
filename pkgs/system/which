@@ -1,0 +1,22 @@
+category="system"
+name="which"
+
+beauty_name="GNU Which"
+description="Which shows the full path of (shell) commands."
+uri="https://www.gnu.org/software/which/"
+version="2.21"
+
+dependencies=()
+
+paths=(
+	"/usr/share/info/which.info"
+	"/usr/bin/which"
+)
+
+system="host"
+build_system="autotools"
+
+archive="https://ftp.gnu.org/gnu/which/which-2.21.tar.gz"
+archive_md5sum="097ff1a324ae02e0a3b0369f07a7544a"
+install_dir=""
+config_sub_path="INSTALL"

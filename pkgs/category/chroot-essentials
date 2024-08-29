@@ -11,6 +11,7 @@ dependencies=(
 	"system/coreutils"
 	"system/diffutils"
 	"system/file"
+	"system/which"
 	"system/findutils"
 	"system/gawk"
 	"system/gcc"
