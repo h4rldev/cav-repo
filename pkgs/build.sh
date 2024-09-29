@@ -103,6 +103,32 @@ if [[ "$system" == "host" ]]; then
 		echo -e "${RED}(x)${CLEAR} Could not detect build system! (autotools, cmd)"
 		exit 1
 	fi
+elif [[ "$system" == "cavos" ]]; then
+	if [[ "$build_system" == "autotools" ]]; then
+		if [[ -z "${archive}" || -z "${install_dir}" ]]; then
+			echo -e "${RED}(x)${CLEAR} Invalid build file, missing autotools attributes!"
+			exit 1
+		fi
+
+		# Include cavOS' chroot script
+		source "${cavos_path}/tools/shared/chroot.sh"
+
+		# Compilation
+		pushd "$cavos_path/target/" >/dev/null
+		echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${category}/${name})${CLEAR} (host) Downloading file"
+		# Download and extract the tarball
+		wget -nc "${archive}" >/dev/null 2>&1
+
+		cp "${cav_repo}/methods/autotools_hosted.sh" "${cavos_path}/target/autotools_hosted.sh"
+		chmod +x "${cavos_path}/target/autotools_hosted.sh"
+
+		chroot_establish "$cavos_path/target/"
+		sudo chroot "$cavos_path/target/" /autotools_hosted.sh "$archive" "$install_dir" "$archive_md5sum" "$extra_parameters" "$extra_install_parameters"
+		chroot_drop "$cavos_path/target/"
+
+		rm -f "${cavos_path}/target/autotools_hosted.sh"
+		pushd "${SCRIPTPATH}/../" >/dev/null
+	fi
 elif [[ "$system" == "ignore" ]]; then
 	echo "Ignored xd" >/dev/null
 else
