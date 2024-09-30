@@ -123,7 +123,11 @@ elif [[ "$system" == "cavos" ]]; then
 		chmod +x "${cavos_path}/target/autotools_hosted.sh"
 
 		chroot_establish "$cavos_path/target/"
-		sudo chroot "$cavos_path/target/" /autotools_hosted.sh "$archive" "$install_dir" "$archive_md5sum" "$extra_parameters" "$extra_install_parameters"
+		if ! sudo chroot "$cavos_path/target/" /autotools_hosted.sh "$archive" "$install_dir" "$archive_md5sum" "$extra_parameters" "$extra_install_parameters"; then
+			chroot_drop "$cavos_path/target/"
+			echo -e "${RED}!${CLEAR} Chroot fail! Exiting immediately!"
+			exit 1
+		fi
 		chroot_drop "$cavos_path/target/"
 
 		rm -f "${cavos_path}/target/autotools_hosted.sh"
