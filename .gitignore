@@ -1,4 +1,7 @@
 session/.config
 session/.secret
+session/.state
+
+session/target
 
 out/*.cav

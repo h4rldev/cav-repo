@@ -28,6 +28,7 @@ install_dir=${2}
 archive_md5sum=${3}
 extra_parameters=${4}
 extra_install_parameters=${5}
+after_build=${6}
 
 if [[ "$(md5sum "${filename}" | sed 's/ .*//g')" != "${archive_md5sum}" ]]; then
 	echo -e "${RED}!${CLEAR} Invalid md5sum! Exiting immediately!"
@@ -39,16 +40,24 @@ pushd "${foldername}" >/dev/null 2>&1
 
 # Compilation itself
 echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${foldername})${CLEAR} Configuring"
-./configure --prefix="${install_dir}" ${extra_parameters} >/dev/null
+FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=/usr ${extra_parameters} >/dev/null
 
 echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${foldername})${CLEAR} Compiling"
 make -j$(nproc) >/dev/null
 
 echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${foldername})${CLEAR} Installing"
 if [ -n "${extra_install_parameters}" ]; then
+	make install DESTDIR="/transition" ${extra_install_parameters} >/dev/null
 	make install ${extra_install_parameters} >/dev/null
 else
+	make install DESTDIR="/transition" >/dev/null
 	make install >/dev/null
+fi
+
+# Just in case it's needed
+if [ -n "${after_build}" ]; then
+	echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${foldername})${CLEAR} Executing custom commands"
+	eval "${after_build}" >/dev/null 2>&1
 fi
 
 # Cleanup

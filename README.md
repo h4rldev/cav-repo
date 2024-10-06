@@ -17,7 +17,7 @@ chmod +x ./cav-repo.sh
 ## "I got x error, how do I fix it??!"
 If you're using this project, we expect you to be able to solve basic issues yourself. Please don't open issues regarding "command not found" type errors. Remember that this is intended to run on servers and won't be interacted by inexperienced users!
 
-Most weird issues will be solvable via just re-building the server's cavOS copy.
+Most weird issues will be solvable via just throwing the whole `session/` folder out the window and re-building.
 
 ## Adding packages
 Again this is a rather advanced project so you'll have to read source code in order to contribute. If you're interested, check how packages are defined in `pkgs/` and try to do one yourself. They have to *at least* run from a cavOS chroot!

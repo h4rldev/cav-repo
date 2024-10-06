@@ -9,48 +9,36 @@ __DESCRIPTION__="The cavOS packaging system"
 __VERSION__="0.0.1"
 __AUTHORS__="MalwarePad & h4rl"
 __LICENSE__="GNU GPL-3.0"
+__CURRENT_TRACK_NUMBER__="1"
 
 # Ensure proper path
 cd "${SCRIPTPATH}"
 
 # Dependencies
 source utils/colors.sh
-source session/.config
+
+# Keep track of our state
+if [ ! -f "session/.state" ]; then
+	echo -e "ids_track=\"$__CURRENT_TRACK_NUMBER__\"\nids_stage=\"0\"" >"session/.state"
+fi
+source "session/.state"
 
 # Global because we need it for seperators
 MSG="-- cav-repo starting at $(date) --"
 
 requirements() {
-	local CAVOS__TARGET
-
-	CAVOS__TARGET="${cavos_path}/target/"
-	if [[ -e "~/opt/cross/bin/x86_64-cavos-gcc" ]]; then
-		echo "${RED}(x)${CLEAR} No cross compiler found!"
+	if [[ "$(pwd)" =~ [^a-zA-Z0-9/_-] ]]; then
+		echo "${RED}(x)${CLEAR} cav-repo cannot be ran under directories that have non-alphanumeric characters in them! ($(pwd))"
 		exit 1
 	fi
 
-	if [[ ! -d "$CAVOS__TARGET" ]]; then
-		echo -e "${RED}(x)${CLEAR} cavOS target could not be fetched!"
-		exit 1
-	fi
-}
-
-sync_cavos() {
-	if [ ! -d "$cavos_path" ]; then
-		echo -e "${RED}(x)${CLEAR} FATAL! cavOS not found!\nMake sure you've properly cloned cavos and provided the path in the .config files...\nSee the session/ directory for details!"
+	if [[ -d "session/target/transition" ]]; then
+		echo "${RED}(x)${CLEAR} Transition directory left hanging!"
 		exit 1
 	fi
 
-	pushd "$cavos_path" >/dev/null
-
-	echo -e "${BLUE}(i)${CLEAR} Syncing the cavOS git repository"
-	git pull >/dev/null 2>&1
-
-	echo -e "${BLUE}(i)${CLEAR} Building cavOS"
-	make clean >/dev/null 2>&1
-	make disk >/dev/null 2>&1
-
-	popd >/dev/null
+	chmod +x utils/prerequisites.sh
+	utils/prerequisites.sh
 }
 
 information() {
@@ -76,8 +64,8 @@ seperator() {
 
 precourse() {
 	information
-	seperator
-	sync_cavos
+	# seperator
+	# sync_cavos
 	seperator
 }
 
@@ -217,6 +205,23 @@ upload_all() {
 	upload_master
 }
 
+content() {
+	if [ -z "$1" ]; then
+		echo -e "${RED}(x)${CLEAR} Bad usage! 1 argument required!"
+		exit 1
+	fi
+
+	if [[ "$1" != *\/* ]]; then
+		echo -e "${RED}(x)${CLEAR} Bad usage! Argument should be of type ${BLUE}category/pkg${CLEAR}!"
+		exit 1
+	fi
+
+	source "pkgs/$1"
+	ARCHIVE="out/${name}-${version}.tar.gz.cav"
+
+	tar ztvf "$ARCHIVE" | less
+}
+
 print_version() {
 	echo "${__NAME__} - ${__VERSION__}"
 	echo "made with <3 by ${__AUTHORS__}"
@@ -262,6 +267,9 @@ case $1 in
 	;;
 -ua | --uall)
 	upload_all
+	;;
+-c | --content)
+	content "$2"
 	;;
 -h | --help | *)
 	print_help

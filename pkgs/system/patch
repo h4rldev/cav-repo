@@ -8,15 +8,8 @@ version="2.7.6"
 
 dependencies=()
 
-paths=(
-	./bin/patch
-)
-
-system="host"
+system="cavos"
 build_system="autotools"
 
 archive="https://ftp.gnu.org/gnu/patch/patch-2.7.6.tar.xz"
 archive_md5sum="78ad9937e4caadcba1526ef1853730d5"
-install_dir=""
-config_sub_path="build-aux/config.sub"
-optional_patchname="patches/patch.diff"

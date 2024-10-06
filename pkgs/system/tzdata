@@ -8,10 +8,6 @@ version="2024a"
 
 dependencies=()
 
-paths=(
-	"/usr/share/zoneinfo"
-)
-
 system="host"
 build_system="cmd"
 
@@ -27,8 +23,8 @@ cmd() {
 	ar x tzdata_2024a-4_all.deb
 	tar -xvf data.tar.xz
 
-	mkdir -p "$cavos_path/target/usr/share/zoneinfo/"
-	cp -r usr/share/zoneinfo/* "$cavos_path/target/usr/share/zoneinfo/"
+	mkdir -p "../session/target/transition/usr/share/zoneinfo/"
+	cp -r usr/share/zoneinfo/* "../session/target/transition/usr/share/zoneinfo/"
 
 	cd ..
 	rm -rf timezonestuff

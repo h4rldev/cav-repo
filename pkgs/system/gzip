@@ -8,28 +8,8 @@ version="1.13"
 
 dependencies=()
 
-paths=(
-	"/usr/share/info/gzip.info"
-	"/usr/bin/gunzip"
-	"/usr/bin/zless"
-	"/usr/bin/zmore"
-	"/usr/bin/zegrep"
-	"/usr/bin/uncompress"
-	"/usr/bin/zgrep"
-	"/usr/bin/gzip"
-	"/usr/bin/zfgrep"
-	"/usr/bin/zcmp"
-	"/usr/bin/zforce"
-	"/usr/bin/znew"
-	"/usr/bin/zcat"
-	"/usr/bin/gzexe"
-	"/usr/bin/zdiff"
-)
-
-system="host"
+system="cavos"
 build_system="autotools"
 
 archive="https://ftp.gnu.org/gnu/gzip/gzip-1.13.tar.xz"
 archive_md5sum="d5c9fc9441288817a4a0be2da0249e29"
-install_dir=""
-config_sub_path="build-aux/config.sub"

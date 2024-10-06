@@ -8,20 +8,8 @@ version="4.4.1"
 
 dependencies=()
 
-paths=(
-	"/usr/share/info/make.info-3"
-	"/usr/share/info/make.info-2"
-	"/usr/share/info/make.info-1"
-	"/usr/share/info/make.info"
-	"/usr/include/gnumake.h"
-	"/usr/bin/make"
-)
-
-system="host"
+system="cavos"
 build_system="autotools"
 
 archive="https://ftp.gnu.org/gnu/make/make-4.4.1.tar.gz"
 archive_md5sum="c8469a3713cbbe04d955d4ae4be23eeb"
-install_dir=""
-config_sub_path="build-aux/config.sub"
-extra_parameters="--without-guile"

@@ -6,19 +6,10 @@ description="This is the project webpage for the Netwide Assembler (NASM), an as
 uri="https://www.nasm.us/"
 version="2.15.05"
 
-dependencies=(
-	"category/chroot-essentials"
-)
-
-paths=(
-	"/bin/nasm"
-	"/bin/ndisasm"
-)
+dependencies=()
 
 system="cavos"
 build_system="autotools"
 
 archive="https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.xz"
 archive_md5sum="1c9802446d7341c41c21eb98c7859064"
-install_dir="/usr"
-extra_parameters=""

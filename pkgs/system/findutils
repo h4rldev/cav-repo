@@ -8,21 +8,9 @@ version="4.10.0"
 
 dependencies=()
 
-paths=(
-	"/usr/libexec/frcode"
-	"/usr/share/info/find.info"
-	"/usr/share/info/dir"
-	"/usr/share/info/find-maint.info"
-	"/usr/bin/find"
-	"/usr/bin/xargs"
-	"/usr/bin/locate"
-	"/usr/bin/updatedb"
-)
-
-system="host"
+system="cavos"
 build_system="autotools"
 
 archive="https://ftp.gnu.org/gnu/findutils/findutils-4.10.0.tar.xz"
 archive_md5sum="870cfd71c07d37ebe56f9f4aaf4ad872"
-install_dir=""
-config_sub_path="build-aux/config.sub"
+extra_parameters="--localstatedir=/var/lib/locate"

@@ -8,17 +8,8 @@ version="3.11"
 
 dependencies=()
 
-paths=(
-	"/usr/share/info/grep.info"
-	"/usr/bin/fgrep"
-	"/usr/bin/egrep"
-	"/usr/bin/grep"
-)
-
-system="host"
+system="cavos"
 build_system="autotools"
 
 archive="https://ftp.gnu.org/gnu/grep/grep-3.11.tar.xz"
 archive_md5sum="7c9bbd74492131245f7cdb291fa142c0"
-install_dir=""
-config_sub_path="build-aux/config.sub"

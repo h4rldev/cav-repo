@@ -8,17 +8,8 @@ version="1.4.19"
 
 dependencies=()
 
-paths=(
-	"/usr/share/info/m4.info-2"
-	"/usr/share/info/m4.info"
-	"/usr/share/info/m4.info-1"
-	"/usr/bin/m4"
-)
-
-system="host"
+system="cavos"
 build_system="autotools"
 
 archive="https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz"
 archive_md5sum="0d90823e1426f1da2fd872df0311298d"
-install_dir=""
-config_sub_path="build-aux/config.sub"

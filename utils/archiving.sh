@@ -2,39 +2,25 @@
 set -e
 # set -x # Uncomment for debugging
 
-archive() {
-	if [ -z "${1}" ]; then
-		echo -e "Invalid usage!\n${0} category/pkg"
-		exit 1
-	fi
+if [ -z "${1}" ]; then
+	echo -e "Invalid usage!\n${0} category/pkg"
+	exit 1
+fi
 
-	# $1 is of form category/pkg
-	source "pkgs/${1}"
+SCRIPT=$(realpath "${0}")
+SCRIPTPATH=$(dirname "${SCRIPT}")
+cd "$SCRIPTPATH/../"
 
-	# public information (cavOS repo path, etc)
-	source "session/.config"
+# $1 is of form category/pkg
+source "pkgs/${1}"
 
-	if [[ -d "/tmp/cav-archive" ]]; then
-		echo -e "${RED}(x)${CLEAR} Please let the other process finish first!"
-		exit 1
-	fi
+if [[ ! -d "session/target/transition" ]]; then
+	echo "${RED}(x)${CLEAR} No transition directory!"
+	exit 1
+fi
 
-	mkdir -p /tmp/cav-archive
+pushd "session/target/transition" >/dev/null
+tar -czf "${SCRIPTPATH}/../out/${name}-${version}.tar.gz.cav" .
+popd >/dev/null
 
-	# Copy the package's respective files to the archive directory
-	for path in ${paths[@]}; do
-		# Copy the files to the archive directory
-		PREFIX="${path%/*}"
-		if [ ! -z $PREFIX ]; then
-			mkdir -p "/tmp/cav-archive/$PREFIX/"
-		fi
-
-		cp -r "${cavos_path}/target/${path}" "/tmp/cav-archive/$PREFIX/"
-	done
-
-	pushd "/tmp/cav-archive" >/dev/null
-	tar -czf "${cav_repo}/out/${name}-${version}.tar.gz.cav" .
-	popd >/dev/null
-
-	rm -rf "/tmp/cav-archive"
-}
+sudo rm -rf "session/target/transition"

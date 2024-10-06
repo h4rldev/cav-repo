@@ -10,10 +10,6 @@ pushd "${SCRIPTPATH}/../" >/dev/null
 
 # colors for pretty output
 source "utils/colors.sh"
-source "utils/archiving.sh"
-
-# public information (cavOS repo path, etc)
-source "session/.config"
 
 # $1 is of form category/pkg
 if [ -z "${1}" ]; then
@@ -21,17 +17,6 @@ if [ -z "${1}" ]; then
 	exit 1
 fi
 source "pkgs/${1}"
-
-CAVOS__TARGET="${cavos_path}/target/"
-if [[ -e "~/opt/cross/bin/x86_64-cavos-gcc" ]]; then
-	echo "${RED}(x)${CLEAR} No cross compiler found!"
-	exit 1
-fi
-
-if [[ ! -d "$CAVOS__TARGET" ]]; then
-	echo -e "${RED}(x)${CLEAR} cavOS target could not be fetched!"
-	exit 1
-fi
 
 if [[ -z "${name}" ]] ||
 	[[ -z "${category}" ]] ||
@@ -42,11 +27,6 @@ if [[ -z "${name}" ]] ||
 	[[ -z "${system}" ]] ||
 	[[ -z "${build_system}" ]]; then
 	echo -e "${RED}(x)${CLEAR} Invalid build file, missing generic attributes!"
-	exit 1
-fi
-
-if ! declare -p paths >/dev/null 2>&1; then
-	echo -e "${RED}(x)${CLEAR} Invalid build file, paths is required!"
 	exit 1
 fi
 
@@ -75,19 +55,17 @@ if [ -f "out/${name}-${version}.meta.cav" ]; then
 	exit 0
 fi
 
+if [[ -d "session/target/transition" ]]; then
+	echo "${RED}(x)${CLEAR} Transition directory left hanging!"
+	exit 1
+fi
+
 # Build package
 if [[ "$system" == "host" ]]; then
 	if [[ "$build_system" == "autotools" ]]; then
-		if [[ -z "${archive}" ]] || [[ -z "${config_sub_path}" ]]; then
-			echo -e "${RED}(x)${CLEAR} Invalid build file, missing autotools attributes!"
-			exit 1
-		fi
-
-		# Compilation
-		pushd "$cavos_path" >/dev/null
-		chmod +x "${cav_repo}/methods/autotools.sh"
-		"${cav_repo}/methods/autotools.sh" "$archive" "$install_dir" "$config_sub_path" "$extra_parameters" "$optional_patchname" "$extra_install_parameters" "$before_build" "$aft_build" "$archive_md5sum"
-		pushd "${SCRIPTPATH}/../" >/dev/null
+		# "methods/autotools.sh" "$archive" "$install_dir" "$config_sub_path" "$extra_parameters" "$optional_patchname" "$extra_install_parameters" "$before_build" "$aft_build" "$archive_md5sum"
+		echo -e "${RED}(x)${CLEAR} Autotools build system todo/discontinued!"
+		exit 1
 	elif [[ "$build_system" == "cmd" ]]; then
 		if ! declare -F cmd >/dev/null; then
 			echo -e "${RED}(x)${CLEAR} Invalid build file, missing custom cmd function!"
@@ -96,42 +74,40 @@ if [[ "$system" == "host" ]]; then
 
 		# Execute custom commands
 		echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${category}/${name})${CLEAR} Executing custom commands"
-		pushd "$cavos_path" >/dev/null
 		cmd >/dev/null
-		popd >/dev/null
 	else
 		echo -e "${RED}(x)${CLEAR} Could not detect build system! (autotools, cmd)"
 		exit 1
 	fi
 elif [[ "$system" == "cavos" ]]; then
 	if [[ "$build_system" == "autotools" ]]; then
-		if [[ -z "${archive}" || -z "${install_dir}" ]]; then
+		if [[ -z "${archive}" ]]; then
 			echo -e "${RED}(x)${CLEAR} Invalid build file, missing autotools attributes!"
 			exit 1
 		fi
 
 		# Include cavOS' chroot script
-		source "${cavos_path}/tools/shared/chroot.sh"
+		source "utils/chroot.sh"
 
 		# Compilation
-		pushd "$cavos_path/target/" >/dev/null
+		pushd "session/target/" >/dev/null
 		echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${category}/${name})${CLEAR} (host) Downloading file"
 		# Download and extract the tarball
 		wget -nc "${archive}" >/dev/null 2>&1
 
-		cp "${cav_repo}/methods/autotools_hosted.sh" "${cavos_path}/target/autotools_hosted.sh"
-		chmod +x "${cavos_path}/target/autotools_hosted.sh"
+		cp "../../methods/autotools_hosted.sh" .
+		chmod +x "autotools_hosted.sh"
 
-		chroot_establish "$cavos_path/target/"
-		if ! sudo chroot "$cavos_path/target/" /autotools_hosted.sh "$archive" "$install_dir" "$archive_md5sum" "$extra_parameters" "$extra_install_parameters"; then
-			chroot_drop "$cavos_path/target/"
+		chroot_establish "."
+		if ! sudo chroot "." /usr/bin/env -i HISTFILE=/dev/null PATH=/usr/bin:/usr/sbin /autotools_hosted.sh "$archive" "$install_dir" "$archive_md5sum" "$extra_parameters" "$extra_install_parameters" "$after_build"; then
+			chroot_drop "."
 			echo -e "${RED}!${CLEAR} Chroot fail! Exiting immediately!"
 			exit 1
 		fi
-		chroot_drop "$cavos_path/target/"
+		chroot_drop "."
 
-		rm -f "${cavos_path}/target/autotools_hosted.sh"
-		pushd "${SCRIPTPATH}/../" >/dev/null
+		rm -f "autotools_hosted.sh"
+		popd >/dev/null
 	fi
 elif [[ "$system" == "ignore" ]]; then
 	echo "Ignored xd" >/dev/null
@@ -143,12 +119,13 @@ fi
 # Archiving
 if [[ "$system" != "ignore" ]]; then
 	echo -e "${BLUE}(i)${CLEAR} Finalizing ${CYAN}${name}-${version}.tar.gz.cav${CLEAR}"
-	archive "${category}/${name}"
+	chmod +x "utils/archiving.sh"
+	utils/archiving.sh "${category}/${name}"
 fi
 
 # Metadata tagging
-chmod +x "${cav_repo}/utils/gen_meta.sh"
-"${cav_repo}/utils/gen_meta.sh" "${category}/${name}"
+chmod +x "utils/gen_meta.sh"
+"utils/gen_meta.sh" "${category}/${name}"
 
 # Regenerate master
 chmod +x "utils/gen_master.sh"

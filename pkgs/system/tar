@@ -8,19 +8,8 @@ version="1.35"
 
 dependencies=()
 
-paths=(
-	"/usr/libexec/rmt"
-	"/usr/share/info/tar.info-3"
-	"/usr/share/info/tar.info-2"
-	"/usr/share/info/tar.info"
-	"/usr/share/info/tar.info-1"
-	"/usr/bin/tar"
-)
-
-system="host"
+system="cavos"
 build_system="autotools"
 
 archive="https://ftp.gnu.org/gnu/tar/tar-1.35.tar.xz"
 archive_md5sum="a2d8042658cfd8ea939e6d911eaf4152"
-install_dir=""
-config_sub_path="build-aux/config.sub"

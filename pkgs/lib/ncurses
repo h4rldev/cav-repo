@@ -8,23 +8,10 @@ version="6.5"
 
 dependencies=()
 
-paths=(
-	"/usr/lib/libncurses.a"
-
-	"/usr/lib/libncursesw.a"
-	"/usr/lib/libncursesw_g.a"
-	"/usr/include/ncurses.h"
-	"/usr/include/ncurses_dll.h"
-	"/usr/bin/ncursesw6-config"
-)
-
-system="host"
+system="cavos"
 build_system="autotools"
 
 archive="https://ftp.gnu.org/gnu/ncurses/ncurses-6.5.tar.gz"
 archive_md5sum="ac2d2629296f04c8537ca706b6977687"
-install_dir="/usr"
-config_sub_path="config.sub"
-extra_parameters="--with-build-sysroot='../../target/usr/' --with-sysroot=/"
-extra_install_parameters="DESTDIR='../../target/usr/../'"
-after_build="cp ../../target/usr/libncursesw.a ../../target/usr/libncurses.a"
+extra_parameters="--with-shared --without-debug --without-normal --with-cxx-shared --enable-pc-files"
+after_build="ln -sf libncursesw.so /transition/usr/lib/libncurses.so && ln -sf libncursesw.so /usr/lib/libncurses.so"
