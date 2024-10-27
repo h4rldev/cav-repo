@@ -9,6 +9,7 @@ uri=""
 version=""
 
 dependencies=()
+build_dependencies=()
 
 paths=()
 

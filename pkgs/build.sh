@@ -45,6 +45,17 @@ for dependency in "${dependencies[@]}"; do
 	fi
 done
 
+if declare -p build_dependencies >/dev/null 2>&1; then
+	for dependency in "${build_dependencies[@]}"; do
+		source "pkgs/dummy"
+		source "pkgs/${dependency}"
+		if [[ ! -f "out/${name}-${version}.meta.cav" ]]; then
+			echo -e "${YELLOW}(+)${CLEAR} ${CYAN}(${name})${CLEAR} is required but not found! (build dependency)"
+			pkgs/build.sh "${category}/${name}"
+		fi
+	done
+fi
+
 # Source it back again (persists after scope of loop)
 source "pkgs/dummy"
 source "pkgs/${1}"
@@ -99,7 +110,7 @@ elif [[ "$system" == "cavos" ]]; then
 		chmod +x "autotools_hosted.sh"
 
 		chroot_establish "."
-		if ! sudo chroot "." /usr/bin/env -i HISTFILE=/dev/null PATH=/usr/bin:/usr/sbin /autotools_hosted.sh "$archive" "$install_dir" "$archive_md5sum" "$extra_parameters" "$extra_install_parameters" "$after_build"; then
+		if ! sudo chroot "." /usr/bin/env -i HISTFILE=/dev/null PATH=/usr/bin:/usr/sbin /autotools_hosted.sh "$archive" "$install_dir" "$archive_md5sum" "$extra_parameters" "$extra_install_parameters" "$before_build" "$after_build"; then
 			chroot_drop "."
 			echo -e "${RED}!${CLEAR} Chroot fail! Exiting immediately!"
 			exit 1

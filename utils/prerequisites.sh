@@ -368,3 +368,7 @@ fi
 if [ ! -f "$USR_PATHNAME/bin/xz" ]; then
 	${cav_repo}/methods/autotools.sh "https://github.com/tukaani-project/xz/releases/download/v5.4.6/xz-5.4.6.tar.xz" "" "build-aux/config.sub" "--disable-static" "" "" "" "rm -f $USR_PATHNAME/lib/liblzma.la" "7ade7bd1181a731328f875bec62a9377"
 fi
+
+if [ ! -f "$USR_PATHNAME/bin/gperf" ]; then
+	${cav_repo}/methods/autotools.sh "https://ftp.gnu.org/gnu/gperf/gperf-3.1.tar.gz" "" "build-aux/config.sub" "" "" "" "" "" "9e251c0a618ad0824b51117d5d9db87e"
+fi

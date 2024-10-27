@@ -28,7 +28,8 @@ install_dir=${2}
 archive_md5sum=${3}
 extra_parameters=${4}
 extra_install_parameters=${5}
-after_build=${6}
+before_build=${6}
+after_build=${7}
 
 if [[ "$(md5sum "${filename}" | sed 's/ .*//g')" != "${archive_md5sum}" ]]; then
 	echo -e "${RED}!${CLEAR} Invalid md5sum! Exiting immediately!"
@@ -38,9 +39,15 @@ echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${foldername})${CLEAR} Extracting archive"
 tar xpvf "${filename}" >/dev/null 2>&1
 pushd "${foldername}" >/dev/null 2>&1
 
+# Just in case it's needed
+if [ -n "${before_build}" ]; then
+	echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${foldername})${CLEAR} Executing custom commands"
+	eval "${before_build}" >/dev/null 2>&1
+fi
+
 # Compilation itself
 echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${foldername})${CLEAR} Configuring"
-FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=/usr ${extra_parameters} >/dev/null
+MAKEFLAGS="-j$(nproc)" FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=/usr ${extra_parameters} >/dev/null
 
 echo -e "${BLUE}(i)${CLEAR} ${CYAN}(${foldername})${CLEAR} Compiling"
 make -j$(nproc) >/dev/null

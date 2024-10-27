@@ -1,0 +1,17 @@
+category="system"
+name="pkg-config"
+
+beauty_name="pkg-config"
+description="The pkg-config package contains a tool for passing the include path and/or library paths to build tools during the configure and make file execution."
+uri="https://www.freedesktop.org/wiki/Software/pkg-config/"
+version="2.3.0"
+
+dependencies=()
+
+system="cavos"
+build_system="autotools"
+
+archive="https://distfiles.ariadne.space/pkgconf/pkgconf-2.3.0.tar.xz"
+archive_md5sum="833363e77b5bed0131c7bc4cc6f7747b"
+extra_parameters="--with-internal-glib --disable-host-tool"
+after_build="ln -sf pkgconf /transition/usr/bin/pkg-config && ln -sf pkgconf /usr/bin/pkg-config"
