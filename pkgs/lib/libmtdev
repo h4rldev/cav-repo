@@ -1,0 +1,16 @@
+category="lib"
+name="libmtdev"
+
+beauty_name="Multitouch Protocol Translation Library"
+description="The mtdev library transforms all variants of kernel MT events to the slotted type B protocol."
+uri="https://bitmath.se/org/code/mtdev/"
+version="1.1.5"
+
+dependencies=()
+
+system="cavos"
+build_system="autotools"
+
+archive="https://bitmath.org/code/mtdev/mtdev-1.1.7.tar.gz"
+archive_md5sum="a7e223d2b33d5d943941ae3423b86cac"
+extra_parameters="--disable-static"
