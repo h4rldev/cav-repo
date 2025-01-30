@@ -119,6 +119,23 @@ elif [[ "$system" == "cavos" ]]; then
 
 		rm -f "autotools_hosted.sh"
 		popd >/dev/null
+	elif [[ "$build_system" == "cmd" ]]; then
+		# Include cavOS' chroot script
+		source "utils/chroot.sh"
+
+		cp "pkgs/$category/$name" "session/target/transitionFile"
+
+		chroot_establish "session/target"
+		if ! sudo chroot "session/target" /usr/bin/env -i HISTFILE=/dev/null PATH=/usr/bin:/usr/sbin bash -c "source /transitionFile && cmd"; then
+			chroot_drop "session/target"
+			echo -e "${RED}!${CLEAR} Chroot fail! Exiting immediately!"
+			rm -f "session/target/transitionFile"
+			exit 1
+		fi
+		chroot_drop "session/target"
+
+		rm -f "session/target/transitionFile"
+		popd >/dev/null
 	fi
 elif [[ "$system" == "ignore" ]]; then
 	echo "Ignored xd" >/dev/null

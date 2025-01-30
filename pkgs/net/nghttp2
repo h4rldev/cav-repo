@@ -1,0 +1,16 @@
+category="net"
+name="nghttp2"
+
+beauty_name="Nghttp2"
+description="nghttp2 is an implementation of HTTP/2 and its header compression algorithm HPACK in C."
+uri="https://nghttp2.org/"
+version="1.62.1"
+
+dependencies=()
+
+system="cavos"
+build_system="autotools"
+
+archive="https://github.com/nghttp2/nghttp2/releases/download/v1.62.1/nghttp2-1.62.1.tar.xz"
+archive_md5sum="965f9a9e0f0eef12d8976fb33e9312ef"
+extra_parameters="--disable-static --enable-lib-only"

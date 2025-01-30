@@ -1,0 +1,16 @@
+category="system"
+name="perl"
+
+beauty_name="Perl"
+description="Zlib is a software library used for data compression as well as a data format."
+uri="https://www.perl.org/"
+version="5.40.0"
+
+dependencies=()
+
+system="cavos"
+build_system="autotools"
+
+archive="https://www.cpan.org/src/5.0/perl-5.40.0.tar.xz"
+archive_md5sum="cfe14ef0709b9687f9c514042e8e1e82"
+before_build="sh Configure -des -D prefix=/usr -D vendorprefix=/usr -D privlib=/usr/lib/perl5/5.40/core_perl -D archlib=/usr/lib/perl5/5.40/core_perl -D sitelib=/usr/lib/perl5/5.40/site_perl -D sitearch=/usr/lib/perl5/5.40/site_perl -D vendorlib=/usr/lib/perl5/5.40/vendor_perl -D vendorarch=/usr/lib/perl5/5.40/vendor_perl -D man1dir=/usr/share/man/man1 -D man3dir=/usr/share/man/man3 -D pager='/usr/bin/less -isR' -D useshrplib -D usethreads && touch configure && chmod +x configure"

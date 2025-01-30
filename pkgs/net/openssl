@@ -1,0 +1,19 @@
+category="net"
+name="openssl"
+
+beauty_name="OpenSSL"
+description="OpenSSL is a robust, commercial-grade, full-featured Open Source Toolkit for TLS."
+uri="https://zlib.net/"
+version="3.3.1"
+
+dependencies=(system/perl)
+build_dependencies=("system/zlib")
+
+system="cavos"
+build_system="autotools"
+
+archive="https://www.openssl.org/source/openssl-3.3.1.tar.gz"
+archive_md5sum="8a4342b399c18f870ca6186299195984"
+extra_parameters="--openssldir=/etc/ssl --libdir=lib shared zlib-dynamic"
+before_build="ln -sf config configure"
+after_build="rm -f /transition/usr/lib/libcrypto.a /transition/usr/lib/libssl.a /usr/lib/libcrypto.a /usr/lib/libssl.a"

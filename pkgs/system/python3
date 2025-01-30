@@ -4,13 +4,13 @@ name="python3"
 beauty_name="Python3"
 description="Python is an extremely popular cross-platform object oriented programming language."
 uri="https://www.python.org/"
-version="3.12.5"
+version="3.10.12"
 
 dependencies=()
 
 system="cavos"
 build_system="autotools"
 
-archive="https://www.python.org/ftp/python/3.12.5/Python-3.12.5.tar.xz"
-archive_md5sum="02c7d269e077f4034963bba6befdc715"
+archive="https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tar.xz"
+archive_md5sum="49b0342476b984e106d308c25d657f12"
 extra_parameters="--enable-shared --enable-optimizations"
