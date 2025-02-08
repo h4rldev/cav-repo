@@ -3,7 +3,7 @@ name="openssl"
 
 beauty_name="OpenSSL"
 description="OpenSSL is a robust, commercial-grade, full-featured Open Source Toolkit for TLS."
-uri="https://zlib.net/"
+uri="https://www.openssl.org/"
 version="3.3.1"
 
 dependencies=(system/perl)
